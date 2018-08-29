@@ -11,8 +11,8 @@ class ThreeDWorld {
     // 物体添加
     this.addObjs();
     // 鼠标插件
-    // this.orbitControls = new THREE.OrbitControls(this.camera);
-    // this.orbitControls.autoRotate = true;
+    this.orbitControls = new THREE.OrbitControls(this.camera);
+    this.orbitControls.autoRotate = true;
 
     this.update();
   }
@@ -137,10 +137,10 @@ class ThreeDWorld {
   }
 
   addObjs() {
-    this.loader(["./public/assets/kv.json"]).then((result) => {
+    this.loader(["./public/assets/qr.json"]).then((result) => {
       let obj1 = result[0].geometry;
-      obj1.scale(10, 10, 10);
-      obj1.rotateX(0.4);
+      obj1.scale(100, 100, 100);
+      
       this.addPartices(obj1);
     });
   }
