@@ -1,0 +1,14 @@
+{
+  "name": "webgl",
+  "version": "1.0.0",
+  "description": "threejs-3dparticle-demo",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "puppy",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/three": "^0.92.18"
+  }
+}
