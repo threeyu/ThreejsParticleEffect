@@ -11,8 +11,8 @@ class ThreeDWorld {
     // 物体添加
     this.addObjs();
     // 鼠标插件
-    this.orbitControls = new THREE.OrbitControls(this.camera);
-    this.orbitControls.autoRotate = true;
+    // this.orbitControls = new THREE.OrbitControls(this.camera);
+    // this.orbitControls.autoRotate = true;
 
     this.update();
   }
@@ -21,7 +21,7 @@ class ThreeDWorld {
     this.WIDTH = window.innerWidth;
 
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.Fog(0x090918, 1, 600);
+    this.scene.fog = new THREE.FogExp2(0x05050c, 0.0005);
 
     let aspectRatio = this.WIDTH / this.HEIGHT;
     let fieldOfView = 60;
@@ -137,13 +137,11 @@ class ThreeDWorld {
   }
 
   addObjs() {
-    this.loader(["./public/assets/kv.json", "./public/assets/qr.json"]).then((result) => {
+    this.loader(["./public/assets/kv.json"]).then((result) => {
       let obj1 = result[0].geometry;
-      let obj2 = result[1].geometry;
       obj1.scale(10, 10, 10);
       obj1.rotateX(0.4);
-      obj2.scale(100, 100, 100);
-      this.addPartices(obj1, obj2);
+      this.addPartices(obj1);
     });
   }
 
@@ -152,30 +150,14 @@ class ThreeDWorld {
     return new THREE.BufferGeometry().fromGeometry(geometry);
   }
 
-  addPartices(obj1, obj2) {
+  addPartices(obj1) {
     obj1 = this.toBufferGeometry(obj1);
-    obj2 = this.toBufferGeometry(obj2);
     let moreObj = obj1
-    let lessObj = obj2;
 
-    if (obj2.attributes.position.array.length > obj1.attributes.position.array.length) {
-      [moreObj, lessObj] = [lessObj, moreObj];
-    }
     let morePos = moreObj.attributes.position.array;
-    let lessPos = lessObj.attributes.position.array;
     let moreLen = morePos.length;
-    let lessLen = lessPos.length;
 
     let position2 = new Float32Array(moreLen);
-
-    position2.set(lessPos);
-
-    for (let i = lessLen, j = 0; i < moreLen; i++ , j++) {
-      j %= lessLen;
-      position2[i] = lessPos[j];
-      position2[i + 1] = lessPos[j + 1];
-      position2[i + 2] = lessPos[j + 2];
-    }
 
     let sizes = new Float32Array(moreLen);
     for (let i = 0; i < moreLen; i++) {
@@ -208,23 +190,6 @@ class ThreeDWorld {
     });
 
     let particleSystem = new THREE.Points(moreObj, shaderMaterial);
-    let pos = {
-      val: 1
-    };
-
-    let tween = new TWEEN.Tween(pos).to({
-      val: 0
-    }, 1500).easing(TWEEN.Easing.Quadratic.InOut).delay(2000).onUpdate(updateCallback);
-    let tweenBack = new TWEEN.Tween(pos).to({
-      val: 1
-    }, 1500).easing(TWEEN.Easing.Quadratic.InOut).delay(2000).onUpdate(updateCallback);
-    tween.chain(tweenBack);
-    tweenBack.chain(tween);
-    tween.start();
-
-    function updateCallback() {
-      particleSystem.material.uniforms.val.value = this.val;
-    }
     this.scene.add(particleSystem);
     this.particleSystem = particleSystem;
   }
@@ -248,17 +213,11 @@ class ThreeDWorld {
   update() {
     TWEEN.update();
     this.stats.update();
-    let time = Date.now() * 0.005;
-    if (this.particleSystem) {
-      let bufferObj = this.particleSystem.geometry;
-      // this.particleSystem.rotation.y = 0.01 * time;
-      let sizes = bufferObj.attributes.size.array;
-      let len = sizes.length;
-      for (let i = 0; i < len; i++) {
-        sizes[i] = 1.5 * (2.0 + Math.sin(0.02 * i + time));
-      }
-      bufferObj.attributes.size.needsUpdate = true;
-    }
+    // let time = Date.now() * 0.005;
+    // if (this.particleSystem) {
+      // this.particleSystem.rotation.y += 0.01;
+      // this.particleSystem.rotateOnAxis((0, 0.4, 0), 15.0);
+    // }
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => {
       this.update()
