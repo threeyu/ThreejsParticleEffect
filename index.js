@@ -157,15 +157,12 @@ class ThreeDWorld {
     let morePos = moreObj.attributes.position.array;
     let moreLen = morePos.length;
 
-    let position2 = new Float32Array(moreLen);
-
     let sizes = new Float32Array(moreLen);
     for (let i = 0; i < moreLen; i++) {
       sizes[i] = 4;
     }
 
     moreObj.addAttribute("size", new THREE.BufferAttribute(sizes, 1));
-    moreObj.addAttribute("position2", new THREE.BufferAttribute(position2, 3));
 
     let uniforms = {
       color: {
@@ -190,6 +187,7 @@ class ThreeDWorld {
     });
 
     let particleSystem = new THREE.Points(moreObj, shaderMaterial);
+
     this.scene.add(particleSystem);
     this.particleSystem = particleSystem;
   }
@@ -215,8 +213,8 @@ class ThreeDWorld {
     this.stats.update();
     // let time = Date.now() * 0.005;
     // if (this.particleSystem) {
-      // this.particleSystem.rotation.y += 0.01;
-      // this.particleSystem.rotateOnAxis((0, 0.4, 0), 15.0);
+    // this.particleSystem.rotation.y += 0.01;
+    // this.particleSystem.rotateOnAxis((0, 0.4, 0), 15.0);
     // }
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => {
