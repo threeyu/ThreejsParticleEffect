@@ -187,7 +187,6 @@ class ThreeDWorld {
     });
 
     let particleSystem = new THREE.Points(moreObj, shaderMaterial);
-
     this.scene.add(particleSystem);
     this.particleSystem = particleSystem;
   }
@@ -211,11 +210,16 @@ class ThreeDWorld {
   update() {
     TWEEN.update();
     this.stats.update();
-    // let time = Date.now() * 0.005;
-    // if (this.particleSystem) {
-    // this.particleSystem.rotation.y += 0.01;
-    // this.particleSystem.rotateOnAxis((0, 0.4, 0), 15.0);
-    // }
+    let time = Date.now() * 0.005;
+    if (this.particleSystem) {
+      let bufferObj = this.particleSystem.geometry;
+      let sizes = bufferObj.attributes.size.array;
+      let len = sizes.length;
+      for (let i = 0; i < len; i++) {
+        sizes[i] = 1.5 * (2.0 + Math.sin(0.01 * i + time));
+      }
+      bufferObj.attributes.size.needsUpdate = true;
+    }
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => {
       this.update()
