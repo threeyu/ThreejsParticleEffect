@@ -210,10 +210,9 @@ class ThreeDWorld {
   update() {
     TWEEN.update();
     this.stats.update();
-    // let time = Date.now() * 0.005;
+    let time = Date.now() * 0.005;
     // if (this.particleSystem) {
-      // this.particleSystem.rotation.y += 0.01;
-      // this.particleSystem.rotateOnAxis((0, 0.4, 0), 15.0);
+    //   this.particleSystem.rotation.y += 0.01;
     // }
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => {

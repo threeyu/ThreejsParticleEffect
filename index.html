@@ -20,7 +20,7 @@
 	<div id="main"></div>
 	<script type="x-shader/x-vertex" id="vertexshader">
 		attribute float size;
-		attribute vec3 position2;
+		attribute vec3;
 		uniform float val;
 		varying vec3 vColor;
 		varying float opacity;
@@ -33,9 +33,9 @@
 
 			vec3 vPos;
 
-			vPos.x = position.x * val + position2.x * (1.-val);
-			vPos.y = position.y* val + position2.y * (1.-val);
-			vPos.z = position.z* val + position2.z * (1.-val);
+			vPos.x = position.x * val;
+			vPos.y = position.y* val;
+			vPos.z = position.z* val;
 
 			vec4 mvPosition = modelViewMatrix * vec4( vPos, 1.0 );
 			if(mvPosition.z > border){
