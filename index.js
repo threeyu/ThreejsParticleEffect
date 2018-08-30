@@ -227,6 +227,25 @@ class ThreeDWorld {
     }
     this.scene.add(particleSystem);
     this.particleSystem = particleSystem;
+
+    //
+    this.starArr = [];
+    for (let i = 0; i < 100; i += 20) {
+      let ball = new THREE.SphereGeometry(30, 30, 30);
+      let pMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 1
+      });
+
+      this.starParticle = new THREE.Points(ball, pMaterial);
+      this.starParticle.position.x = Math.random() * 100 - 50;
+      this.starParticle.position.y = i;
+      this.starParticle.position.z = Math.random() * 100 - 150;
+      this.starParticle.scale.x = this.starParticle.scale.y = 10;
+      this.scene.add(this.starParticle);
+
+      this.starArr.push(this.starParticle);
+    }
   }
   getTexture(canvasSize = 64) {
     let canvas = document.createElement("canvas");
@@ -261,8 +280,20 @@ class ThreeDWorld {
     }
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(() => {
-      this.update()
+      this.update();
+      this.updateStar();
     });
+  }
+  updateStar() {
+    if (this.starArr) {
+      for (let i = 0; i < this.starArr.length; i++) {
+        let star = this.starArr[i];
+        star.position.y += 0.1;
+        if (star.position.y > 1000) {
+          star.position.y -= 2000;
+        }
+      }
+    }
   }
 }
 
