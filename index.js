@@ -11,8 +11,8 @@ class ThreeDWorld {
     // 物体添加
     this.addObjs();
     // 鼠标插件
-    this.orbitControls = new THREE.OrbitControls(this.camera);
-    this.orbitControls.autoRotate = true;
+    // this.orbitControls = new THREE.OrbitControls(this.camera);
+    // this.orbitControls.autoRotate = true;
 
     this.update();
   }
