@@ -21,7 +21,7 @@ class ThreeDWorld {
     this.WIDTH = window.innerWidth;
 
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.Fog(0x090918, 1, 600);
+    this.scene.fog = new THREE.FogExp2(0x05050c, 0.0005);
 
     let aspectRatio = this.WIDTH / this.HEIGHT;
     let fieldOfView = 60;
